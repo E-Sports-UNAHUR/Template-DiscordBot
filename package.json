@@ -2,14 +2,17 @@
   "name": "botdiscord",
   "version": "1.0.0",
   "description": "",
-  "main": "bot.js",
+  "main": "main.js",
+  "type": "module",
   "scripts": {
+    "start": "node main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Template",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^14.15.2"
+    "discord.js": "^14.15.2",
+    "googleapis": "^137.1.0"
   }
 }
