@@ -14,17 +14,23 @@ export async function ValidateMember(member) {
         const googleSheets = GoogleAPIs.google.sheets({ version: 'v4', auth: googleAuthObject });
         // Objeto de Google Sheets creado
         const spreadsheetId = process.env.GOOGLE_CREDENTIAL_SPREADSHEET_ID;
-        const range = 'Respuestas de formulario 1!H2:H';
+        const range2024 = 'Respuestas de formulario 1!H2:H';
+        const range2023 = 'Respuestas de formulario 3!H2:H';
         // ahora obtenemos los valores de la hoja de Google Sheets
-        const response = await googleSheets.spreadsheets.values.get({ spreadsheetId, range });
-        const values = response.data.values;
+        const response2024 = await googleSheets.spreadsheets.values.get({ spreadsheetId, range: range2024 });
+        const response2023 = await googleSheets.spreadsheets.values.get({ spreadsheetId, range: range2023 });
+        const values2024 = response2024.data.values;
+        const values2023 = response2023.data.values;
         console.log('Datos de la hoja de Google Sheets cargados');
         // tomamos los datos de la columna "H" que es donde se encuentra el nombre de usuario de Discord, excluyendo la fila de encabezado
-        const discordUsernames = values.map(value => value[0].toLowerCase());
+        const discordUsernames2024 = values2024.map(value2024 => value2024[0] ? value2024[0].toLowerCase() : ' ');
+        console.log('Nombres 2024 cargados');
+        const discordUsernames2023 = values2023.map(value2023 => value2023[0] ? value2023[0].toLowerCase() : ' ');
+        console.log('Nombres 2023 cargados');
         // tomamos el nombre de usuario de Discord del usuario que ingresó al servidor y lo convertimos a minúsculas
         const newMemberUsername = member.user.username.toLowerCase();
         // validamos si el nombre de usuario de Discord del usuario que ingresó al servidor se encuentra en la lista de nombres de usuario de Discord que se encuentran en la hoja de Google Sheets
-        if (discordUsernames.includes(newMemberUsername)) {
+        if (discordUsernames2024.includes(newMemberUsername) || discordUsernames2023.includes(newMemberUsername)) {
             // si el nombre de usuario de Discord del usuario que ingresó al servidor se encuentra en la lista de nombres de usuario de Discord que se encuentran en la hoja de Google Sheets, entonces le asignamos el rol "Alumno"
             
             const role = guild.roles.cache.find(role => role.name == 'Alumno');
